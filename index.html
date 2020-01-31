@@ -6,10 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Critical Hit</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            font-size: 7px;
+        }
+
+        table tr:first-child td {
+            background-color: lightgray;
+        }
+
+        table td:first-child {
+            background-color: lightgray;
+        }
+
+        table td:not(:first-child) {
+            --size: 10px;
+            width: var(--size);
+            height: var(--size);
+        }
+
+        li:nth-child(even) {
+            background-color: #eee;
+        }
+
+        li.active {
+            background-color: #f55;
+        }
+    </style>
 </head>
 
 <body>
-    <a href="http://www.windsofchaos.com/?page_id=19">crit charts</a>
+    <a href="http://www.windsofchaos.com/?page_id=19">crit charts</a> <br />
+    <a href="https://wfrp1e.fandom.com/wiki/Tests">Tests</a> <br />
     <script src="main.mjs" type="module"></script>
 </body>
 

@@ -1,57 +1,118 @@
-import ArrowBolt from './arrow-bolt.mjs'
-import Blunt from './blunt.mjs'
-import Bullet from './bullet.mjs'
+import { severity, crit, types, bodyParts, typeMap } from './crit.mjs'
 
 /**
  * 
+ * @param {string[]} options
+ */
+function createSelect(options) {
+    return el('select', {}, options.map(opt => el('option', {}, opt)))
+}
+
+/**
  * @param {number} value
- * @param {number} max
- * @param {number} min
- * 
- * @returns {number}
  */
-function clamp(value, max, min) {
-    return Math.max(Math.min(Math.round(value), max), min)
+function createNumber(value) {
+    return el('input', { type: 'number', value: value })
 }
 
-/**
- * 
- * @param {number} maxHP
- * @param {number} currentHP 
- * @param {number} d100 
- * 
- * @returns {number}
- */
-export function severity(maxHP, currentHP, d100) {
-    const val = 7 ** (currentHP / maxHP) + 10 ** (d100 / 100) - 2
-    return clamp(Math.round(val), 14, 0)
+function br() {
+    return el('br')
 }
 
-/**
- * @param {string} attackType
- * @param {string} bodyPart
- * @param {number} maxHP
- * @param {number} currentHP 
- * @param {number} d100 
- * 
- * @returns {string}
- */
-export function crit(attackType, bodyPart, maxHP, currentHP, d100) {
-    const typeMap = {
-        'arrow-bolt': ArrowBolt,
-        'blunt': Blunt,
-        'bullet': Bullet,
+function el(tagName, args = {}, children = []) {
+    const element = document.createElement(tagName)
+    for (const [key, val] of Object.entries(args)) {
+        element[key] = val
     }
-
-    if (typeMap[attackType] === undefined) {
-        throw new Error(`invalid attack type ${attackType}`)
-    }
-    if (typeMap[attackType][bodyPart] === undefined) {
-        throw new Error(`invalid body part ${bodyPart}`)
-    }
-
-    return typeMap[attackType][bodyPart][severity(maxHP, currentHP, d100)]
+    element.append(...children)
+    return element
 }
 
-// console.log(crit('arrow-bolt', 'body', 30, 30, 95))
-console.log(crit('bullet', 'body', 30, 30, 49))
+const typeSelect = createSelect(types())
+const bodyPartSelect = createSelect(bodyParts())
+const d100Input = createNumber(((Math.random() * 100) + 1).toFixed())
+const maxHP = createNumber(100)
+const currentHP = createNumber(50)
+
+const result = el('div')
+
+
+function change() {
+    const sev = severity(maxHP.value,
+        currentHP.value,
+        d100Input.value
+    )
+
+    result.innerText = ''
+
+    result.append(el('ol', {}, typeMap[typeSelect.value][bodyPartSelect.value].map(
+        (effect, i) => el('li', { className: sev === i ? 'active' : '' }, [effect]))
+    ))
+}
+
+document.body.append(
+    'type', typeSelect, br(),
+    'body part', bodyPartSelect, br(),
+    'max hp', maxHP, br(),
+    'current hp', currentHP, br(),
+    'd100', d100Input,
+    result,
+)
+
+change()
+
+typeSelect.addEventListener('input', change)
+bodyPartSelect.addEventListener('input', change)
+d100Input.addEventListener('input', change)
+maxHP.addEventListener('input', change)
+currentHP.addEventListener('input', change)
+
+function makeTable(maxHP) {
+
+    const table = document.createElement('table')
+
+    const step = 0.02
+
+    const tr = document.createElement('tr')
+
+    const td = document.createElement('td')
+    tr.append(td)
+    for (let hpPercentage = 0; hpPercentage < 1; hpPercentage += step) {
+        const td = document.createElement('td')
+        td.innerText = ((1 - hpPercentage) * 100).toFixed()
+        tr.append(td)
+    }
+    table.append(tr)
+
+    for (let d100 = 0; d100 < 1; d100 += step) {
+        const tr = document.createElement('tr')
+
+        const td = document.createElement('td')
+        td.innerText = `d100 ${((d100 * 100) + 1).toFixed()}`
+        tr.append(td)
+
+        for (let hpPercentage = 0; hpPercentage < 1; hpPercentage += step) {
+            const td = document.createElement('td')
+            const sev = severity(maxHP, maxHP * (1 - hpPercentage), d100 * 100)
+            td.innerText = sev
+            const r = sev / 14 * 2
+            const g = (1 - (sev / 14))
+            const b = 0
+            td.style.backgroundColor = `rgba(${r * 255}, ${g * 255}, ${b * 255}, 1)`
+            tr.append(td)
+        }
+        table.append(tr)
+    }
+
+    return table
+}
+
+const tblCtr = el('div')
+const slider = el('input', { type: 'range', max: 500, min: 20 })
+slider.addEventListener('input', () => {
+    tblCtr.innerText = slider.value
+    tblCtr.append(makeTable(slider.value))
+})
+document.body.append(slider, tblCtr)
+
+tblCtr.append(makeTable(slider.value))
