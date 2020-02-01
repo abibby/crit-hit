@@ -41,6 +41,12 @@ function clamp(value, max, min) {
     return Math.max(Math.min(Math.round(value), max), min)
 }
 
+function li(val, min, max, newMin, newMax) {
+    const mag = max - min
+    const newMag = newMax - newMin
+    return ((newMag / mag) * (val - min)) + newMin
+}
+
 /**
  * 
  * @param {number} maxHP
@@ -50,7 +56,7 @@ function clamp(value, max, min) {
  * @returns {number}
  */
 export function severity(maxHP, currentHP, d100) {
-    const val = 12 ** (1 - (currentHP / maxHP)) + 7 ** (clamp(d100, 100, 0) / 100) - 2
+    const val = 14 ** (1 - (currentHP / maxHP)) + li(maxHP, 20, 500, 12, 1) ** (clamp(d100, 100, 0) / 100) - 2
     return clamp(Math.round(val), 14, 0)
 }
 
