@@ -2,12 +2,14 @@ import ArrowBolt from './arrow-bolt.mjs'
 import Blunt from './blunt.mjs'
 import Bullet from './bullet.mjs'
 import Cutting from './cutting.mjs'
+import FlameEnergy from './flame-energy.mjs'
 
 export const typeMap = {
     'arrow-bolt': ArrowBolt,
     'blunt': Blunt,
     'bullet': Bullet,
     'cutting': Cutting,
+    'flame-energy': FlameEnergy,
 }
 
 /**
