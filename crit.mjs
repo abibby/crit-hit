@@ -3,6 +3,7 @@ import Blunt from './blunt.mjs'
 import Bullet from './bullet.mjs'
 import Cutting from './cutting.mjs'
 import FlameEnergy from './flame-energy.mjs'
+import Piercing from './piercing.mjs'
 
 export const typeMap = {
     'arrow-bolt': ArrowBolt,
@@ -10,6 +11,7 @@ export const typeMap = {
     'bullet': Bullet,
     'cutting': Cutting,
     'flame-energy': FlameEnergy,
+    'piercing': Piercing,
 }
 
 /**

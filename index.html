@@ -8,20 +8,20 @@
     <title>Critical Hit</title>
 
     <style>
-        table {
+        table.big {
             border-collapse: collapse;
             font-size: 7px;
         }
 
-        table tr:first-child td {
+        table.big tr:first-child td {
             background-color: lightgray;
         }
 
-        table td:first-child {
+        table.big td:first-child {
             background-color: lightgray;
         }
 
-        table td:not(:first-child) {
+        table.big td:not(:first-child) {
             --size: 10px;
             width: var(--size);
             height: var(--size);
@@ -34,12 +34,131 @@
         li.active {
             background-color: #f55;
         }
+
+        .conversion {
+            float: right;
+            /* height: 100vh; */
+            background: white;
+            border: solid 1px;
+            width: 300px;
+
+        }
+
+        .conversion table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .conversion tr:nth-child(even) {
+            background-color: #eee;
+        }
     </style>
 </head>
 
 <body>
     <a href="http://www.windsofchaos.com/?page_id=19">crit charts</a> <br />
     <a href="https://wfrp1e.fandom.com/wiki/Tests">Tests</a> <br />
+
+    <div class="conversion">
+        <h3>Tests</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">War Hammer</th>
+                    <th>D&D</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>WS</td>
+                    <td>Weapon Skill</td>
+                    <td>Str/Dex</td>
+                </tr>
+                <tr>
+                    <td>BS</td>
+                    <td>Ballistic Skill</td>
+                    <td>Dex</td>
+                </tr>
+                <tr>
+                    <td>S</td>
+                    <td>Strength</td>
+                    <td>Str</td>
+                </tr>
+                <tr>
+                    <td>T</td>
+                    <td>Toughness</td>
+                    <td>Con</td>
+                </tr>
+                <tr>
+                    <td>W</td>
+                    <td>Wounds</td>
+                    <td>HP?</td>
+                </tr>
+                <tr>
+                    <td>I</td>
+                    <td>Initiative</td>
+                    <td>Dex</td>
+                </tr>
+                <tr>
+                    <td>Dex</td>
+                    <td>Dexterity</td>
+                    <td>Dex</td>
+                </tr>
+                <tr>
+                    <td>Ld</td>
+                    <td>Leadership</td>
+                    <td>Cha</td>
+                </tr>
+                <tr>
+                    <td>Int</td>
+                    <td>Intelligence</td>
+                    <td>Int</td>
+                </tr>
+                <tr>
+                    <td>Cl</td>
+                    <td>Cool (calm, collected)</td>
+                    <td>Wis</td>
+                </tr>
+                <tr>
+                    <td>WP</td>
+                    <td>Will Power</td>
+                    <td>Constitution</td>
+                </tr>
+                <tr>
+                    <td>Fel</td>
+                    <td>Fellowship</td>
+                    <td>Cha</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>DC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Very Hard (-30%)</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td>Hard (-20%)</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Challenging (-10%)</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>Normal</td>
+                    <td>10</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <script src="main.mjs" type="module"></script>
 </body>
 

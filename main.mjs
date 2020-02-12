@@ -71,6 +71,8 @@ function makeTable(maxHP) {
 
     const table = document.createElement('table')
 
+    table.className = 'big'
+
     const step = 0.02
 
     const tr = document.createElement('tr')
